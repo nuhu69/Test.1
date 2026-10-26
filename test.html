@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Mastery Presentation & Interactive Suite</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0B1914',     /* Midnight Emerald / Dark Slate */
+                            card: '#132821',     /* Glass Card Background */
+                            border: '#1E3E33',   /* Accent Border */
+                            gold: '#FFC857',     /* Electric Amber/Gold Accent */
+                            goldHover: '#E5B142',
+                            teal: '#10B981',     /* Vibrant Mint Teal */
+                            light: '#F3F4F6'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Keyframe Animations & Unique Styling */
+        body {
+            background-color: #0B1914;
+            color: #F3F4F6;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism Classes */
+        .glass-panel {
+            background: rgba(19, 40, 33, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 200, 87, 0.15);
+        }
+
+        .glass-card {
+            background: rgba(25, 51, 42, 0.5);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 200, 87, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px -10px rgba(255, 200, 87, 0.2);
+        }
+
+        /* Glow Effects */
+        .glow-gold {
+            box-shadow: 0 0 25px rgba(255, 200, 87, 0.3);
+        }
+
+        /* Hero Particle Background Canvas */
+        #particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Text Gradient Effect */
+        .text-gradient {
+            background: linear-gradient(135deg, #FFFFFF 0%, #FFC857 50%, #10B981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-gold-gradient {
+            background: linear-gradient(135deg, #FFE194 0%, #FFC857 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Typing Effect Caret */
+        .typing-caret {
+            border-right: 3px solid #FFC857;
+            animation: blink 0.75s step-end infinite;
+        }
+
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: #FFC857; }
+        }
+
+        /* Flashcard 3D Flip Effects */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+
+        .flip-card-inner {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B1914;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1E3E33;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #FFC857;
+        }
+    </style>
+</head>
+<body class="relative antialiased selection:bg-brand-gold selection:text-brand-dark">
+
+    <!-- CANVAS BACKGROUND ANIMATION -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- FLOATING NAVIGATION BAR -->
+    <header class="fixed top-5 inset-x-0 z-50 max-w-6xl mx-auto px-4">
+        <nav class="glass-panel rounded-full px-6 py-3 flex items-center justify-between shadow-2xl transition-all duration-300">
+            <a href="#hero" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-full bg-brand-gold/20 flex items-center justify-center border border-brand-gold/40 group-hover:scale-105 transition-transform">
+                    <i class="fa-solid me-0 fa-graduation-cap text-brand-gold text-lg"></i>
+                </div>
+                <span class="font-bold text-lg tracking-wide text-white font-serif">English<span class="text-brand-gold">Craft</span></span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <ul class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <li><a href="#hero" class="hover:text-brand-gold transition-colors py-1">Home</a></li>
+                <li><a href="#team" class="hover:text-brand-gold transition-colors py-1">Team</a></li>
+                <li><a href="#deck" class="hover:text-brand-gold transition-colors py-1">Slides</a></li>
+                <li><a href="#modules" class="hover:text-brand-gold transition-colors py-1">Modules</a></li>
+                <li><a href="#quiz" class="hover:text-brand-gold transition-colors py-1">Quiz</a></li>
+            </ul>
+
+            <!-- Call To Action Button -->
+            <a href="#deck" class="hidden sm:inline-flex items-center gap-2 bg-brand-gold text-brand-dark font-bold text-xs uppercase tracking-wider px-5 py-2.5 rounded-full hover:bg-brand-goldHover transition-all shadow-md hover:shadow-brand-gold/20">
+                <span>Start Presentation</span>
+                <i class="fa-solid fa-arrow-right text-xs"></i>
+            </a>
+
+            <!-- Mobile Menu Toggle -->
+            <button id="mobile-menu-btn" class="md:hidden text-white hover:text-brand-gold text-xl focus:outline-none">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </nav>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden glass-panel rounded-2xl mt-2 p-6 flex-col gap-4 text-center border border-brand-border shadow-xl">
+            <a href="#hero" class="py-2 hover:text-brand-gold border-b border-brand-border/40">Home</a>
+            <a href="#team" class="py-2 hover:text-brand-gold border-b border-brand-border/40">Team</a>
+            <a href="#deck" class="py-2 hover:text-brand-gold border-b border-brand-border/40">Slides</a>
+            <a href="#modules" class="py-2 hover:text-brand-gold border-b border-brand-border/40">Modules</a>
+            <a href="#quiz" class="py-2 hover:text-brand-gold">Quiz</a>
+        </div>
+    </header>
+
+    <!-- SECTION 1: HERO / LANDING SECTION -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center pt-28 pb-16 px-4">
+        <div class="max-w-4xl mx-auto text-center z-10 space-y-8">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border border-brand-gold/30 text-brand-gold text-xs font-semibold tracking-wider uppercase mb-2 animate-bounce">
+                <i class="fa-solid fa-sparkles"></i> Academic & Professional English Presentation
+            </div>
+
+            <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight font-serif leading-tight">
+                Mastering Academic <br>
+                <span class="text-gradient">Discourse & Rhetoric</span>
+            </h1>
+
+            <!-- Animated Typing Paragraph -->
+            <p class="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto font-light h-16 sm:h-12 leading-relaxed">
+                <span id="typing-text"></span><span class="typing-caret">&nbsp;</span>
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                <a href="#deck" class="w-full sm:w-auto px-8 py-4 rounded-full bg-brand-gold text-brand-dark font-bold text-sm tracking-wide shadow-lg hover:bg-brand-goldHover transition-all flex items-center justify-center gap-3 group">
+                    <span>View Interactive Slides</span>
+                    <i class="fa-solid fa-play text-xs group-hover:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#modules" class="w-full sm:w-auto px-8 py-4 rounded-full glass-card hover:bg-brand-border/50 text-white font-semibold text-sm tracking-wide transition-all border border-brand-border flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-book-open text-brand-gold"></i> Explore Modules
+                </a>
+            </div>
+
+            <!-- Key Highlights Pill Badges -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-12 text-left">
+                <div class="glass-card p-4 rounded-xl border border-brand-border/30">
+                    <div class="text-brand-gold font-bold text-xl mb-1">01</div>
+                    <div class="text-xs text-gray-400">Essay Structures</div>
+                </div>
+                <div class="glass-card p-4 rounded-xl border border-brand-border/30">
+                    <div class="text-brand-gold font-bold text-xl mb-1">02</div>
+                    <div class="text-xs text-gray-400">Lexical Enhancer</div>
+                </div>
+                <div class="glass-card p-4 rounded-xl border border-brand-border/30">
+                    <div class="text-brand-gold font-bold text-xl mb-1">03</div>
+                    <div class="text-xs text-gray-400">Slide Deck Player</div>
+                </div>
+                <div class="glass-card p-4 rounded-xl border border-brand-border/30">
+                    <div class="text-brand-gold font-bold text-xl mb-1">04</div>
+                    <div class="text-xs text-gray-400">Interactive Quiz</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: TEAM MEMBERS SECTION -->
+    <section id="team" class="py-20 px-4 relative z-10 max-w-6xl mx-auto">
+        <div class="text-center space-y-3 mb-16">
+            <h2 class="text-xs font-bold text-brand-gold uppercase tracking-widest">Collaborators</h2>
+            <h3 class="text-3xl sm:text-4xl font-bold font-serif text-white">Meet Our Presentation Team</h3>
+            <p class="text-gray-400 text-sm max-w-lg mx-auto">The researchers, writers, and presenters behind this English proficiency project.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Member 1 -->
+            <div class="glass-card p-6 rounded-2xl text-center space-y-4 group">
+                <div class="relative w-24 h-24 mx-auto rounded-full overflow-hidden border-2 border-brand-gold/40 group-hover:border-brand-gold transition-colors p-1">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300" alt="Sarah Jenkins" class="w-full h-full object-cover rounded-full">
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold text-white group-hover:text-brand-gold transition-colors">Sarah Jenkins</h4>
+                    <p class="text-xs text-brand-teal font-medium mt-0.5">Lead Presenter & Researcher</p>
+                </div>
+                <p class="text-xs text-gray-400 line-clamp-3">Specialized in comparative essay linguistics and rhetoric analysis.</p>
+                <div class="flex items-center justify-center gap-3 text-gray-400 pt-2">
+                    <a href="#" class="hover:text-brand-gold transition-colors text-sm"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="#" class="hover:text-brand-gold transition-colors text-sm"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="hover:text-brand-gold transition-colors text-sm"><i class="fa-solid fa-envelope"></i></a>
+                </div>
+            </div>
+
+            <!-- Member 2 -->
+            <div class="glass-card p-6 rounded-2xl text-center space-y-4 group">
+                <div class="relative w-24 h-24 mx-auto rounded-full overflow-hidden border-2 border-brand-gold/40 group-hover:border-brand-gold transition-colors p-1">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300" alt="Alex Chen" class="w-full h-full object-cover rounded-full">
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold text-white group-hover:text-brand-gold transition-colors">Alex Chen</h4>
+                    <p class="text-xs text-brand-teal font-medium mt-0.5">Content Architect</p>
+                </div>
+                <p class="text-xs text-gray-400 line-clamp-3">Focused on vocabulary acquisition models and slide design strategy.</p>
+                <div class="flex items-center justify-center gap-3 text-gray-400 pt-2">
+                    <a href="#" class="hover:text-brand-gold transition-colors text-sm"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="#" class="hover:text-brand-gold transition-colors text-sm"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="hover:text-brand-gold transition-colors text-sm"><i class="fa-solid fa-envelope"></i></a>
+                </div>
+            </div>
+
+            <!-- Member 3 -->
+            <div class="glass-card p-6 rounded-2xl text-center space-y-4 group">
+                <div class="relative w-24 h-24 mx-auto rounded-full overflow-hidden border-2 border-brand-gold/40 group-hover:border-brand-gold transition-colors p-1">
+                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&q=80&w=300" alt="Elena Rostova" class="w-full h-full object-cover rounded-full">
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold text-white group-hover:text-brand-gold transition-colors">Elena Rostova</h4>
+                    <p class="text-xs text-brand-teal font-medium mt-0.5">Linguistic Specialist</p>
+                </div>
+                <p class="text-xs text-gray-400 line-clamp-3">Expert in academic vocabulary syntax and cause-effect logical framing.</p>
+                <div class="flex items-center justify-center gap-3 text-gray-400 pt-2">
+                    <a href="#" class="hover:text-brand-gold transition-colors text-sm"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="#" class="hover:text-brand-gold transition-colors text-sm"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="hover:text-brand-gold transition-colors text-sm"><i class="fa-solid fa-envelope"></i></a>
+                </div>
+            </div>
+
+            <!-- Member 4 -->
+            <div class="glass-card p-6 rounded-2xl text-center space-y-4 group">
+                <div class="relative w-24 h-24 mx-auto rounded-full overflow-hidden border-2 border-brand-gold/40 group-hover:border-brand-gold transition-colors p-1">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=300" alt="Marcus Vance" class="w-full h-full object-cover rounded-full">
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold text-white group-hover:text-brand-gold transition-colors">Marcus Vance</h4>
+                    <p class="text-xs text-brand-teal font-medium mt-0.5">Technical & Editor</p>
+                </div>
+                <p class="text-xs text-gray-400 line-clamp-3">Interactive platform designer, quiz developer, and slide curator.</p>
+                <div class="flex items-center justify-center gap-3 text-gray-400 pt-2">
+                    <a href="#" class="hover:text-brand-gold transition-colors text-sm"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="#" class="hover:text-brand-gold transition-colors text-sm"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="hover:text-brand-gold transition-colors text-sm"><i class="fa-solid fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: EMBEDDED PRESENTATION DECK PLAYER -->
+    <section id="deck" class="py-20 px-4 relative z-10 max-w-5xl mx-auto">
+        <div class="text-center space-y-3 mb-10">
+            <h2 class="text-xs font-bold text-brand-gold uppercase tracking-widest">Interactive Media</h2>
+            <h3 class="text-3xl sm:text-4xl font-bold font-serif text-white">Presentation Slide Deck</h3>
+            <p class="text-gray-400 text-sm max-w-lg mx-auto">Navigate through our key slides directly below. Toggle fullscreen or jump between specific slide topics.</p>
+        </div>
+
+        <!-- Slide Player Container -->
+        <div id="slide-player-box" class="glass-panel rounded-3xl overflow-hidden border border-brand-border shadow-2xl relative">
+            
+            <!-- Slide Header Control Bar -->
+            <div class="bg-brand-dark/90 px-6 py-4 border-b border-brand-border/60 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <span id="slide-indicator" class="bg-brand-gold text-brand-dark px-3 py-1 rounded-full text-xs font-bold">Slide 1 / 5</span>
+                    <h4 id="slide-title-header" class="text-sm font-semibold text-white truncate max-w-xs sm:max-w-md">Introduction to Presentation</h4>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="fullscreen-btn" onclick="toggleFullScreen()" class="px-3 py-1.5 rounded-lg glass-card hover:bg-brand-border text-xs text-gray-300 hover:text-white transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-expand"></i> <span class="hidden sm:inline">Fullscreen</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Slide Canvas / Content Stage -->
+            <div class="p-8 sm:p-12 min-h-[380px] sm:min-h-[420px] flex flex-col justify-between relative bg-gradient-to-br from-brand-card/90 to-brand-dark/95">
+                
+                <!-- Dynamic Slide Content Body -->
+                <div id="slide-content-area" class="space-y-6 transition-all duration-300">
+                    <!-- Javascript populates slides here -->
+                </div>
+
+                <!-- Dynamic Speaker Notes Section -->
+                <div class="mt-8 pt-4 border-t border-brand-border/40 text-xs text-gray-400 flex items-start gap-3">
+                    <i class="fa-solid fa-comment-dots text-brand-gold text-sm mt-0.5"></i>
+                    <div>
+                        <span class="font-bold text-gray-300 uppercase tracking-wider block text-[10px] mb-0.5">Speaker Notes:</span>
+                        <p id="speaker-notes" class="italic">Notes for the active slide will appear here to assist presenters.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide Navigation Bar Footer -->
+            <div class="bg-brand-dark/90 px-6 py-4 border-t border-brand-border/60 flex flex-col sm:flex-row items-center justify-between gap-4">
+                
+                <!-- Slide Jump Tabs -->
+                <div class="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0" id="slide-pills">
+                    <!-- Dynamically generated navigation pills -->
+                </div>
+
+                <!-- Prev/Next Buttons -->
+                <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+                    <button onclick="prevSlide()" class="px-5 py-2.5 rounded-xl glass-card hover:bg-brand-border text-xs font-semibold text-white transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-chevron-left"></i> Previous
+                    </button>
+                    <button onclick="nextSlide()" class="px-5 py-2.5 rounded-xl bg-brand-gold text-brand-dark font-bold text-xs hover:bg-brand-goldHover transition-all flex items-center gap-2">
+                        Next <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: PRESENTATION MODULES & LEARNING TOOLS -->
+    <section id="modules" class="py-20 px-4 relative z-10 max-w-6xl mx-auto space-y-20">
+        
+        <!-- MODULE 1: ESSAY TYPES & STRUCTURE -->
+        <div>
+            <div class="text-center space-y-3 mb-12">
+                <h2 class="text-xs font-bold text-brand-gold uppercase tracking-widest">Module 01</h2>
+                <h3 class="text-3xl font-bold font-serif text-white">Essay Types & Rhetorical Structure</h3>
+                <p class="text-gray-400 text-sm max-w-lg mx-auto">Explore core structures essential for academic writing proficiency.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Essay Type 1 -->
+                <div class="glass-card p-6 rounded-2xl space-y-4 border border-brand-border hover:border-brand-gold/50 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-brand-gold/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold text-xl">
+                        <i class="fa-solid fa-code-merge"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white">Cause & Effect</h4>
+                    <p class="text-xs text-gray-300 leading-relaxed">
+                        Examines the reasons behind an event or condition and analyzes the resulting consequences.
+                    </p>
+                    <ul class="text-xs text-gray-400 space-y-2 pt-2 border-t border-brand-border/40">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-teal"></i> Key Signal Words: <i>Consequently, Due to, Thereby</i></li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-teal"></i> Focus: Causal Relationships</li>
+                    </ul>
+                </div>
+
+                <!-- Essay Type 2 -->
+                <div class="glass-card p-6 rounded-2xl space-y-4 border border-brand-border hover:border-brand-gold/50 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-brand-gold/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold text-xl">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white">Compare & Contrast</h4>
+                    <p class="text-xs text-gray-300 leading-relaxed">
+                        Analyzes similarities and differences between two or more subjects to provide deeper understanding.
+                    </p>
+                    <ul class="text-xs text-gray-400 space-y-2 pt-2 border-t border-brand-border/40">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-teal"></i> Key Signal Words: <i>Whereas, Conversely, Likewise</i></li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-teal"></i> Focus: Synthesis & Distinction</li>
+                    </ul>
+                </div>
+
+                <!-- Essay Type 3 -->
+                <div class="glass-card p-6 rounded-2xl space-y-4 border border-brand-border hover:border-brand-gold/50 transition-all">
+                    <div class="w-12 h-12 rounded-xl bg-brand-gold/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold text-xl">
+                        <i class="fa-solid fa-compress"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white">Summarization</h4>
+                    <p class="text-xs text-gray-300 leading-relaxed">
+                        Condenses lengthy texts into core thesis points while maintaining objective neutrality and clarity.
+                    </p>
+                    <ul class="text-xs text-gray-400 space-y-2 pt-2 border-t border-brand-border/40">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-teal"></i> Key Signal Words: <i>In essence, In summary, Ultimately</i></li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-teal"></i> Focus: Brevity & Precision</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODULE 2: VOCABULARY ENHANCEMENT FLASHCARDS -->
+        <div>
+            <div class="text-center space-y-3 mb-10">
+                <h2 class="text-xs font-bold text-brand-gold uppercase tracking-widest">Module 02</h2>
+                <h3 class="text-3xl font-bold font-serif text-white">Interactive Lexical Enhancer</h3>
+                <p class="text-gray-400 text-sm max-w-lg mx-auto">Click on any card to flip it and unveil advanced academic terms and usage examples.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Flashcard 1 -->
+                <div class="flip-card h-52 cursor-pointer perspective-1000" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner relative w-full h-full rounded-2xl duration-500">
+                        <!-- Front -->
+                        <div class="flip-card-front absolute inset-0 glass-card p-6 rounded-2xl flex flex-col justify-between border border-brand-border">
+                            <span class="text-[10px] font-bold text-brand-gold tracking-widest uppercase">Academic Term</span>
+                            <div class="text-center">
+                                <h5 class="text-2xl font-bold text-white font-serif">Articulate</h5>
+                                <p class="text-xs text-gray-400 italic mt-1">/ɑːrˈtɪk.jə.leɪt/</p>
+                            </div>
+                            <div class="text-right text-xs text-brand-gold flex items-center justify-end gap-1">
+                                <span>Flip card</span> <i class="fa-solid fa-rotate-right"></i>
+                            </div>
+                        </div>
+                        <!-- Back -->
+                        <div class="flip-card-back absolute inset-0 glass-card p-6 rounded-2xl flex flex-col justify-between bg-brand-card border border-brand-gold/40">
+                            <div>
+                                <span class="text-xs font-bold text-brand-teal uppercase">Verb / Adjective</span>
+                                <p class="text-xs text-gray-200 mt-2">To express an idea clearly and fluently in speech or writing.</p>
+                            </div>
+                            <p class="text-[11px] text-gray-400 italic bg-brand-dark/50 p-2.5 rounded-lg border border-brand-border/30">
+                                "She was able to articulate the complex arguments effectively."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flashcard 2 -->
+                <div class="flip-card h-52 cursor-pointer perspective-1000" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner relative w-full h-full rounded-2xl duration-500">
+                        <!-- Front -->
+                        <div class="flip-card-front absolute inset-0 glass-card p-6 rounded-2xl flex flex-col justify-between border border-brand-border">
+                            <span class="text-[10px] font-bold text-brand-gold tracking-widest uppercase">Academic Term</span>
+                            <div class="text-center">
+                                <h5 class="text-2xl font-bold text-white font-serif">Elucidate</h5>
+                                <p class="text-xs text-gray-400 italic mt-1">/iːˈluː.sə.deɪt/</p>
+                            </div>
+                            <div class="text-right text-xs text-brand-gold flex items-center justify-end gap-1">
+                                <span>Flip card</span> <i class="fa-solid fa-rotate-right"></i>
+                            </div>
+                        </div>
+                        <!-- Back -->
+                        <div class="flip-card-back absolute inset-0 glass-card p-6 rounded-2xl flex flex-col justify-between bg-brand-card border border-brand-gold/40">
+                            <div>
+                                <span class="text-xs font-bold text-brand-teal uppercase">Verb</span>
+                                <p class="text-xs text-gray-200 mt-2">To make something clear; to explain in detail.</p>
+                            </div>
+                            <p class="text-[11px] text-gray-400 italic bg-brand-dark/50 p-2.5 rounded-lg border border-brand-border/30">
+                                "The presenter used diagrams to elucidate the underlying thesis."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flashcard 3 -->
+                <div class="flip-card h-52 cursor-pointer perspective-1000" onclick="this.classList.toggle('flipped')">
+                    <div class="flip-card-inner relative w-full h-full rounded-2xl duration-500">
+                        <!-- Front -->
+                        <div class="flip-card-front absolute inset-0 glass-card p-6 rounded-2xl flex flex-col justify-between border border-brand-border">
+                            <span class="text-[10px] font-bold text-brand-gold tracking-widest uppercase">Academic Term</span>
+                            <div class="text-center">
+                                <h5 class="text-2xl font-bold text-white font-serif">Coherent</h5>
+                                <p class="text-xs text-gray-400 italic mt-1">/kəʊˈhɪə.rənt/</p>
+                            </div>
+                            <div class="text-right text-xs text-brand-gold flex items-center justify-end gap-1">
+                                <span>Flip card</span> <i class="fa-solid fa-rotate-right"></i>
+                            </div>
+                        </div>
+                        <!-- Back -->
+                        <div class="flip-card-back absolute inset-0 glass-card p-6 rounded-2xl flex flex-col justify-between bg-brand-card border border-brand-gold/40">
+                            <div>
+                                <span class="text-xs font-bold text-brand-teal uppercase">Adjective</span>
+                                <p class="text-xs text-gray-200 mt-2">Logical and consistent; forming a unified whole.</p>
+                            </div>
+                            <p class="text-[11px] text-gray-400 italic bg-brand-dark/50 p-2.5 rounded-lg border border-brand-border/30">
+                                "A coherent essay requires smooth transitions between body paragraphs."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODULE 3: KEY TAKEAWAYS -->
+        <div class="glass-panel p-8 sm:p-12 rounded-3xl border border-brand-border space-y-6">
+            <div class="max-w-2xl">
+                <h2 class="text-xs font-bold text-brand-gold uppercase tracking-widest">Module 03</h2>
+                <h3 class="text-3xl font-bold font-serif text-white mt-1">Key Takeaways & Summary</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-full bg-brand-teal/20 border border-brand-teal/40 flex items-center justify-center text-brand-teal shrink-0 mt-1">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <div>
+                        <h5 class="font-bold text-white text-base">Clarity Over Complexity</h5>
+                        <p class="text-xs text-gray-300 mt-1">Effective English presentation relies on concise structure rather than overly convoluted sentence patterns.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-full bg-brand-teal/20 border border-brand-teal/40 flex items-center justify-center text-brand-teal shrink-0 mt-1">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <div>
+                        <h5 class="font-bold text-white text-base">Rhetorical Cohesion</h5>
+                        <p class="text-xs text-gray-300 mt-1">Utilizing precise lexical transitions creates a seamless flow for audience understanding.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: INTERACTIVE COMPREHENSION QUIZ SECTION -->
+    <section id="quiz" class="py-20 px-4 relative z-10 max-w-4xl mx-auto">
+        <div class="text-center space-y-3 mb-12">
+            <h2 class="text-xs font-bold text-brand-gold uppercase tracking-widest">Knowledge Check</h2>
+            <h3 class="text-3xl sm:text-4xl font-bold font-serif text-white">Comprehension & Vocabulary Quiz</h3>
+            <p class="text-gray-400 text-sm max-w-lg mx-auto">Test your understanding of the concepts covered in this presentation.</p>
+        </div>
+
+        <div class="glass-panel p-8 sm:p-10 rounded-3xl border border-brand-border relative">
+            
+            <!-- Quiz Progress & Score Header -->
+            <div class="flex items-center justify-between pb-6 mb-6 border-b border-brand-border/60">
+                <span id="quiz-question-number" class="text-xs font-bold text-brand-gold uppercase tracking-wider">Question 1 of 3</span>
+                <span id="quiz-score" class="text-xs font-semibold bg-brand-dark px-3 py-1.5 rounded-full text-gray-300 border border-brand-border">Score: 0</span>
+            </div>
+
+            <!-- Quiz Main Body -->
+            <div id="quiz-container" class="space-y-6">
+                <h4 id="quiz-question-text" class="text-lg sm:text-xl font-semibold text-white">Loading question...</h4>
+
+                <!-- Options Grid -->
+                <div id="quiz-options" class="space-y-3">
+                    <!-- Options populated via JS -->
+                </div>
+
+                <!-- Instant Feedback Alert Box -->
+                <div id="quiz-feedback" class="hidden p-4 rounded-xl text-xs font-medium border">
+                    <!-- Feedback text -->
+                </div>
+            </div>
+
+            <!-- Quiz Controls -->
+            <div class="mt-8 pt-6 border-t border-brand-border/60 flex items-center justify-between">
+                <button id="reset-quiz-btn" onclick="resetQuiz()" class="text-xs text-gray-400 hover:text-brand-gold transition-colors flex items-center gap-2">
+                    <i class="fa-solid fa-rotate-left"></i> Reset Quiz
+                </button>
+                <button id="next-quiz-btn" onclick="nextQuestion()" class="hidden px-6 py-2.5 rounded-xl bg-brand-gold text-brand-dark font-bold text-xs hover:bg-brand-goldHover transition-all">
+                    Next Question <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER SECTION -->
+    <footer class="py-10 border-t border-brand-border/40 text-center relative z-10 text-xs text-gray-500">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p>© 2026 Academic English Presentation Group. All Rights Reserved.</p>
+            <div class="flex items-center gap-6">
+                <a href="#hero" class="hover:text-brand-gold transition-colors">Back to Top</a>
+                <a href="#deck" class="hover:text-brand-gold transition-colors">Presentation Slides</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        /* --------------------------------------------------
+           1. CANVAS FLOATING PARTICLE BACKGROUND ANIMATION
+        -------------------------------------------------- */
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.speedY = (Math.random() - 0.5) * 0.4;
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 200, 87, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const count = Math.min(Math.floor(window.innerWidth / 15), 80);
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+        initParticles();
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        /* --------------------------------------------------
+           2. TYPING HERO TEXT ANIMATION
+        -------------------------------------------------- */
+        const typingPhrases = [
+            "Empowering effective communication through structured rhetoric.",
+            "Mastering cause, effect, and comparative essay design.",
+            "Elevating academic vocabulary & oral presentation skills."
+        ];
+        let phraseIdx = 0;
+        let charIdx = 0;
+        let isDeleting = false;
+        const typingSpeed = 50;
+        const typingElement = document.getElementById('typing-text');
+
+        function typeEffect() {
+            const currentPhrase = typingPhrases[phraseIdx];
+            
+            if (isDeleting) {
+                typingElement.textContent = currentPhrase.substring(0, charIdx - 1);
+                charIdx--;
+            } else {
+                typingElement.textContent = currentPhrase.substring(0, charIdx + 1);
+                charIdx++;
+            }
+
+            if (!isDeleting && charIdx === currentPhrase.length) {
+                setTimeout(() => { isDeleting = true; }, 2000);
+            } else if (isDeleting && charIdx === 0) {
+                isDeleting = false;
+                phraseIdx = (phraseIdx + 1) % typingPhrases.length;
+            }
+
+            const speed = isDeleting ? typingSpeed / 2 : typingSpeed;
+            setTimeout(typeEffect, speed);
+        }
+
+        /* --------------------------------------------------
+           3. INTERACTIVE SLIDE PRESENTATION DECK
+        -------------------------------------------------- */
+        const slidesData = [
+            {
+                title: "Introduction & Presentation Objectives",
+                body: `
+                    <div class="space-y-4">
+                        <span class="text-xs font-bold text-brand-gold uppercase tracking-widest">Slide 01</span>
+                        <h3 class="text-2xl sm:text-3xl font-bold text-white font-serif">Welcome to Our Academic Discourse</h3>
+                        <p class="text-sm text-gray-300 leading-relaxed">
+                            This presentation systematically breaks down core academic English structures, key vocabulary building blocks, and strategies for concise oral and written delivery.
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                            <div class="glass-card p-3 rounded-xl border border-brand-border/40 text-xs">
+                                <span class="text-brand-teal font-bold block">Objective 1</span> Analyze Rhetorical Essay Structures
+                            </div>
+                            <div class="glass-card p-3 rounded-xl border border-brand-border/40 text-xs">
+                                <span class="text-brand-teal font-bold block">Objective 2</span> Enhance Lexical Diversity
+                            </div>
+                        </div>
+                    </div>
+                `,
+                notes: "Greet the audience clearly. State the core goal of the presentation within the first 30 seconds."
+            },
+            {
+                title: "Comparative Analysis Framework",
+                body: `
+                    <div class="space-y-4">
+                        <span class="text-xs font-bold text-brand-gold uppercase tracking-widest">Slide 02</span>
+                        <h3 class="text-2xl sm:text-3xl font-bold text-white font-serif">Structuring Compare & Contrast</h3>
+                        <p class="text-sm text-gray-300 leading-relaxed">
+                            Two primary organizational models dictate effective comparative essays: Point-by-Point and Block Method.
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                            <div class="bg-brand-dark/70 p-4 rounded-xl border border-brand-border/50">
+                                <h5 class="text-sm font-bold text-brand-gold mb-1">Point-by-Point</h5>
+                                <p class="text-xs text-gray-400">Alternates arguments between Subject A and Subject B for each criterion.</p>
+                            </div>
+                            <div class="bg-brand-dark/70 p-4 rounded-xl border border-brand-border/50">
+                                <h5 class="text-sm font-bold text-brand-gold mb-1">Block Method</h5>
+                                <p class="text-xs text-gray-400">Presents all features of Subject A first, followed by Subject B.</p>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                notes: "Emphasize when to choose Point-by-Point (longer essays) versus Block Method (shorter papers)."
+            },
+            {
+                title: "Cause & Effect Relationships",
+                body: `
+                    <div class="space-y-4">
+                        <span class="text-xs font-bold text-brand-gold uppercase tracking-widest">Slide 03</span>
+                        <h3 class="text-2xl sm:text-3xl font-bold text-white font-serif">Causal Transition Mechanics</h3>
+                        <p class="text-sm text-gray-300 leading-relaxed">
+                            Establishing clear causality requires specific grammatical connectors to prevent logical fallacies.
+                        </p>
+                        <div class="glass-card p-4 rounded-xl space-y-2 border border-brand-border text-xs">
+                            <div class="flex justify-between border-b border-brand-border/40 pb-2">
+                                <span class="font-bold text-white">Direct Cause:</span>
+                                <span class="text-brand-teal">Due to, Owing to, Stemming from</span>
+                            </div>
+                            <div class="flex justify-between pt-1">
+                                <span class="font-bold text-white">Resulting Effect:</span>
+                                <span class="text-brand-gold">Consequently, As a result, Thereby</span>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                notes: "Remind listeners that 'Due to' is followed by a noun phrase, whereas 'Because' introduces a full clause."
+            },
+            {
+                title: "Lexical & Vocabulary Mastery",
+                body: `
+                    <div class="space-y-4">
+                        <span class="text-xs font-bold text-brand-gold uppercase tracking-widest">Slide 04</span>
+                        <h3 class="text-2xl sm:text-3xl font-bold text-white font-serif">Elevating Academic Register</h3>
+                        <p class="text-sm text-gray-300 leading-relaxed">
+                            Replacing informal colloquialisms with formal academic vocabulary immediately improves thesis authority.
+                        </p>
+                        <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                            <div class="bg-red-500/10 border border-red-500/30 p-2.5 rounded-lg text-red-300">Informal: "Get better"</div>
+                            <div class="bg-gray-800 p-2.5 rounded-lg text-gray-400">→</div>
+                            <div class="bg-brand-teal/10 border border-brand-teal/30 p-2.5 rounded-lg text-brand-teal font-semibold">Formal: "Ameliorate"</div>
+                        </div>
+                    </div>
+                `,
+                notes: "Highlight that academic register is about precision, not sounding overly complicated."
+            },
+            {
+                title: "Conclusion & Q&A Preparation",
+                body: `
+                    <div class="space-y-4">
+                        <span class="text-xs font-bold text-brand-gold uppercase tracking-widest">Slide 05</span>
+                        <h3 class="text-2xl sm:text-3xl font-bold text-white font-serif">Summary & Open Floor</h3>
+                        <p class="text-sm text-gray-300 leading-relaxed">
+                            Thank you for participating in our presentation. Proceed to the interactive flashcards and test your knowledge in the comprehension quiz below.
+                        </p>
+                        <div class="p-4 rounded-xl bg-brand-gold/10 border border-brand-gold/30 text-xs text-brand-gold flex items-center gap-3">
+                            <i class="fa-solid fa-circle-info text-base"></i>
+                            <span>Scroll down to access Module Flashcards and the Quiz section.</span>
+                        </div>
+                    </div>
+                `,
+                notes: "Invite questions from the panel or audience gracefully."
+            }
+        ];
+
+        let currentSlide = 0;
+
+        function renderSlide() {
+            const slide = slidesData[currentSlide];
+            document.getElementById('slide-indicator').textContent = `Slide ${currentSlide + 1} / ${slidesData.length}`;
+            document.getElementById('slide-title-header').textContent = slide.title;
+            document.getElementById('slide-content-area').innerHTML = slide.body;
+            document.getElementById('speaker-notes').textContent = slide.notes;
+
+            // Render Nav Pills
+            const pillsContainer = document.getElementById('slide-pills');
+            pillsContainer.innerHTML = '';
+            slidesData.forEach((_, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `w-7 h-7 rounded-lg text-xs font-bold transition-all ${idx === currentSlide ? 'bg-brand-gold text-brand-dark' : 'glass-card text-gray-400 hover:text-white'}`;
+                btn.textContent = idx + 1;
+                btn.onclick = () => jumpToSlide(idx);
+                pillsContainer.appendChild(btn);
+            });
+        }
+
+        function nextSlide() {
+            if (currentSlide < slidesData.length - 1) {
+                currentSlide++;
+                renderSlide();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                renderSlide();
+            }
+        }
+
+        function jumpToSlide(index) {
+            currentSlide = index;
+            renderSlide();
+        }
+
+        function toggleFullScreen() {
+            const box = document.getElementById('slide-player-box');
+            if (!document.fullscreenElement) {
+                box.requestFullscreen().catch(err => alert(`Fullscreen error: ${err.message}`));
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        /* --------------------------------------------------
+           4. INTERACTIVE QUIZ SYSTEM
+        -------------------------------------------------- */
+        const quizQuestions = [
+            {
+                question: "Which term best describes expressing an idea clearly and fluently?",
+                options: ["Elucidate", "Articulate", "Coherent", "Synthesize"],
+                correct: 1,
+                explanation: "'Articulate' means expressing thoughts clearly and fluently."
+            },
+            {
+                question: "Which transition phrase is ideal for introducing a cause/reason?",
+                options: ["Consequently", "Owing to", "Likewise", "Conversely"],
+                correct: 1,
+                explanation: "'Owing to' signals a cause, whereas 'Consequently' signals an effect."
+            },
+            {
+                question: "What is the primary characteristic of a 'Point-by-Point' comparative structure?",
+                options: [
+                    "Discussing all aspects of Subject A before Subject B",
+                    "Alternating between subjects for each individual criterion",
+                    "Summarizing the entire text in one paragraph",
+                    "Focusing solely on cause and effect"
+                ],
+                correct: 1,
+                explanation: "Point-by-point alternates between subjects criterion by criterion."
+            }
+        ];
+
+        let currentQuizIdx = 0;
+        let score = 0;
+        let selectedOption = null;
+
+        function renderQuiz() {
+            const q = quizQuestions[currentQuizIdx];
+            document.getElementById('quiz-question-number').textContent = `Question ${currentQuizIdx + 1} of ${quizQuestions.length}`;
+            document.getElementById('quiz-score').textContent = `Score: ${score}`;
+            document.getElementById('quiz-question-text').textContent = q.question;
+            
+            const optionsBox = document.getElementById('quiz-options');
+            optionsBox.innerHTML = '';
+
+            const feedbackBox = document.getElementById('quiz-feedback');
+            feedbackBox.className = "hidden p-4 rounded-xl text-xs font-medium border";
+
+            document.getElementById('next-quiz-btn').classList.add('hidden');
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl glass-card hover:border-brand-gold/60 text-sm font-medium text-gray-200 transition-all flex items-center justify-between group";
+                btn.innerHTML = `
+                    <span>${opt}</span>
+                    <i class="fa-regular fa-circle text-gray-500 group-hover:text-brand-gold"></i>
+                `;
+                btn.onclick = () => selectQuizOption(idx, btn);
+                optionsBox.appendChild(btn);
+            });
+        }
+
+        function selectQuizOption(optionIdx, buttonEl) {
+            const q = quizQuestions[currentQuizIdx];
+            const feedbackBox = document.getElementById('quiz-feedback');
+            const allButtons = document.getElementById('quiz-options').children;
+
+            // Disable further clicks
+            for (let b of allButtons) {
+                b.disabled = true;
+                b.classList.add('opacity-60');
+            }
+            buttonEl.classList.remove('opacity-60');
+
+            if (optionIdx === q.correct) {
+                score++;
+                document.getElementById('quiz-score').textContent = `Score: ${score}`;
+                buttonEl.classList.add('border-brand-teal', 'bg-brand-teal/20');
+                feedbackBox.className = "p-4 rounded-xl text-xs font-medium border border-brand-teal/40 bg-brand-teal/10 text-brand-teal block";
+                feedbackBox.innerHTML = `<i class="fa-solid fa-circle-check mr-2"></i> Correct! ${q.explanation}`;
+            } else {
+                buttonEl.classList.add('border-red-500', 'bg-red-500/20');
+                feedbackBox.className = "p-4 rounded-xl text-xs font-medium border border-red-500/40 bg-red-500/10 text-red-300 block";
+                feedbackBox.innerHTML = `<i class="fa-solid fa-circle-xmark mr-2"></i> Incorrect. ${q.explanation}`;
+            }
+
+            document.getElementById('next-quiz-btn').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            if (currentQuizIdx < quizQuestions.length - 1) {
+                currentQuizIdx++;
+                renderQuiz();
+            } else {
+                // Quiz Complete View
+                document.getElementById('quiz-container').innerHTML = `
+                    <div class="text-center py-8 space-y-4">
+                        <div class="w-16 h-16 rounded-full bg-brand-gold/20 text-brand-gold border border-brand-gold flex items-center justify-center text-2xl mx-auto">
+                            <i class="fa-solid fa-trophy"></i>
+                        </div>
+                        <h4 class="text-2xl font-bold text-white font-serif">Quiz Complete!</h4>
+                        <p class="text-sm text-gray-300">You scored <span class="text-brand-gold font-bold">${score}</span> out of <span class="font-bold">${quizQuestions.length}</span>.</p>
+                    </div>
+                `;
+                document.getElementById('next-quiz-btn').classList.add('hidden');
+            }
+        }
+
+        function resetQuiz() {
+            currentQuizIdx = 0;
+            score = 0;
+            renderQuiz();
+        }
+
+        /* --------------------------------------------------
+           5. INITIALIZATION & MOBILE MENU TOGGLE
+        -------------------------------------------------- */
+        window.onload = function () {
+            animateParticles();
+            typeEffect();
+            renderSlide();
+            renderQuiz();
+
+            // Mobile Menu Toggle
+            const menuBtn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            menuBtn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+                menu.classList.toggle('flex');
+            });
+        };
+    </script>
+</body>
+</html>
